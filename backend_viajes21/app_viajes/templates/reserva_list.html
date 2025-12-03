@@ -34,6 +34,8 @@
         <thead>
             <tr>
                 <th>Paquete</th>
+                <th>Vuelo</th>
+                <th>Alojamiento</th>
                 <th>Cliente</th>
                 <th>Fecha de Reserva</th>
                 <th>Adultos</th>
@@ -48,7 +50,9 @@
         <tbody>
             {% for reserva in reservas %}
             <tr>
-                <td>{{ reserva.id_paquete.nombre_paquete }}</td>
+                <td>{% if reserva.id_paquete %}{{ reserva.id_paquete.nombre_paquete }}{% else %}N/A{% endif %}</td>
+                <td>{% if reserva.id_vuelo %}{{ reserva.id_vuelo.num_vuelo }}{% else %}N/A{% endif %}</td>
+                <td>{% if reserva.id_alojamiento %}{{ reserva.id_alojamiento.nombre_hotel }}{% else %}N/A{% endif %}</td>
                 <td>{{ reserva.id_cliente.nombre }} {{ reserva.id_cliente.apellido }}</td>
                 <td>{{ reserva.fecha_reserva }}</td>
                 <td>{{ reserva.num_adultos }}</td>
@@ -64,7 +68,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="10">No hay reservas registradas.</td>
+                <td colspan="12">No hay reservas registradas.</td>
             </tr>
             {% endfor %}
         </tbody>

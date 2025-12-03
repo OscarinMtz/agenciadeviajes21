@@ -1,50 +1,18 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
 
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANiFEST
-
-# pyenv
-.python-version
-
-# dotenv
-.env
-.venv
-env/
+# Environments
+.venv/
 venv/
 ENV/
-env.bak
-venv.bak
 
-# databases
+# Django stuff
 db.sqlite3
+*.log
+local_settings.py
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# Python cache
+__pycache__/
+*.pyc
 
-# IDEs
-.idea/
+# IDE files
 .vscode/
+.idea/

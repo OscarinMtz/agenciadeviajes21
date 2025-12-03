@@ -211,7 +211,7 @@ def cliente_delete(request, pk):
 
 # Vistas para Reservas
 def reserva_list(request):
-    reservas = Reserva_Viaje.objects.select_related('id_paquete', 'id_cliente').all()
+    reservas = Reserva_Viaje.objects.select_related('id_vuelo', 'id_alojamiento', 'id_cliente').all()
     return render(request, 'reserva_list.html', {'reservas': reservas})
 
 def reserva_create(request):

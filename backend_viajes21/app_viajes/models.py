@@ -1,3 +1,4 @@
+
 from django.db import models
 
 class Destino(models.Model):
@@ -50,11 +51,11 @@ class Paquete_Turistico(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     id_destino = models.ForeignKey(Destino, on_delete=models.CASCADE)
+    vuelos = models.ManyToManyField(Vuelo, blank=True, related_name='paquetes')
+    alojamientos = models.ManyToManyField(Alojamiento, blank=True, related_name='paquetes')
     precio_adulto = models.DecimalField(max_digits=10, decimal_places=2)
     precio_nino = models.DecimalField(max_digits=10, decimal_places=2)
     cupo_maximo = models.IntegerField()
-    incluye_vuelo = models.ManyToManyField(Vuelo, blank=True)
-    incluye_alojamiento = models.ManyToManyField(Alojamiento, blank=True)
 
     def __str__(self):
         return f"{self.nombre_paquete} ({self.id_destino.nombre_destino})"
@@ -89,7 +90,9 @@ class Agente_Viajes(models.Model):
 
 class Reserva_Viaje(models.Model):
     id_reserva = models.AutoField(primary_key=True)
-    id_paquete = models.ForeignKey(Paquete_Turistico, on_delete=models.CASCADE)
+    id_paquete = models.ForeignKey(Paquete_Turistico, on_delete=models.CASCADE, null=True, blank=True)
+    id_vuelo = models.ForeignKey(Vuelo, on_delete=models.CASCADE, null=True, blank=True)
+    id_alojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE, null=True, blank=True)
     id_cliente = models.ForeignKey(Cliente_Viajes, on_delete=models.CASCADE)
     fecha_reserva = models.DateTimeField(auto_now_add=True)
     num_adultos = models.IntegerField()
@@ -100,4 +103,9 @@ class Reserva_Viaje(models.Model):
     id_agente_venta = models.ForeignKey(Agente_Viajes, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return f"Reserva de {self.id_cliente} para {self.id_paquete.nombre_paquete}"
+        if self.id_paquete:
+            return f"Reserva de {self.id_cliente} para el paquete {self.id_paquete.nombre_paquete}"
+        
+        vuelo_info = f"vuelo {self.id_vuelo.num_vuelo}" if self.id_vuelo else "ningún vuelo"
+        alojamiento_info = f"alojamiento en {self.id_alojamiento.nombre_hotel}" if self.id_alojamiento else "ningún alojamiento"
+        return f"Reserva de {self.id_cliente} para {vuelo_info} y {alojamiento_info}"
